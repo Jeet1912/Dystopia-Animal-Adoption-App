@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../screens/home_screen.dart';
 import '../theme.dart';
+import 'floating_action_helper.dart';
 
 class BottomNavigation extends StatefulWidget {
   @override
@@ -49,7 +50,7 @@ class _BottomNavigationState extends State<BottomNavigation>
   }
 
   List iconList = <IconData>[
-    Icons.search, // the pet market
+    Icons.home, // the pet market
 
     Icons.favorite, // user's favorites
 
@@ -59,13 +60,15 @@ class _BottomNavigationState extends State<BottomNavigation>
   ];
   final List _screens = [
     HomePage(),
-    SearchPage(),
+    SavedPage(),
     Scaffold(),
     ProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(designSize: Size(414, 896), allowFontScaling: true);
+    //ScreenUtil.init(designSize: Size(414, 896), allowFontScaling: true);
+    ScreenUtil.init(context,
+        designSize: Size(414, 896), allowFontScaling: true);
     return Scaffold(
       body: _screens[_bottomNavIndex],
       floatingActionButton: ScaleTransition(
@@ -87,7 +90,8 @@ class _BottomNavigationState extends State<BottomNavigation>
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation:
+          FixedCenterDockedFabLocation(context: context),
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: iconList,
         height: kSpacingUnit.h * 7,
