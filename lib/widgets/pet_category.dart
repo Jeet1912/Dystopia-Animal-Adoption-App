@@ -1,41 +1,67 @@
+import 'package:dystopia_flutter_app/screens/list_of_pets.dart';
+import 'package:dystopia_flutter_app/widgets/platform_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PetCategory extends StatelessWidget {
-  final String emoji;
+  final String image;
   final String name;
-  final Function pressButton;
+
+  final BuildContext context;
   const PetCategory({
     Key key,
-    this.emoji,
+    this.context,
+    this.image,
     this.name,
-    this.pressButton,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+      context,
+      designSize: Size(414, 896),
+      allowFontScaling: true,
+    );
     return ClipRRect(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(20),
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10),
-        ),
+        width: 70.w,
         child: Material(
-          color: Colors.transparent,
           child: InkWell(
-            onTap: pressButton,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
+            onTap: () {
+              print("Is it here?");
+              PlatformPageRoute.pageRoute(
+                  fullScreen: false,
+                  widget: ListScreen(),
+                  fromRoot: false,
+                  context: context);
+            },
+            child: IgnorePointer(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(emoji, style: TextStyle(fontSize: 50.0)),
-                  Text(
-                    name,
-                    textAlign: TextAlign.center,
-                    style: GoogleFonts.nunito(
-                        textStyle: TextStyle(fontSize: 15.0)),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Color(0xFFb9815d),
+                          image: DecorationImage(
+                            image: AssetImage(image),
+                            fit: BoxFit.cover,
+                          )),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Center(
+                      child: Text(
+                        name,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.nunito(
+                            textStyle: TextStyle(fontSize: 20.w)),
+                      ),
+                    ),
                   )
                 ],
               ),
